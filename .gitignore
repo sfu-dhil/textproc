@@ -1,0 +1,10 @@
+.DS_Store
+*.log
+Thumbs.db
+Desktop.ini
+
+/vendor/
+/.idea
+/.phpunit.result.cache
+/phpunit.xml
+/coverage
