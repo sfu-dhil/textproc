@@ -18,7 +18,7 @@ use Monolog\Logger;
 $logger = new Logger('process');
 $output = "[%datetime%] %channel% - %level_name%: %message%\n";
 $formatter = new LineFormatter($output);
-$handler = new StreamHandler('php://stdout', Logger::NOTICE);
+$handler = new StreamHandler('php://stdout', Logger::WARNING);
 $handler->setFormatter($formatter);
 $logger->pushHandler($handler);
 
