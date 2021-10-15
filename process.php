@@ -31,5 +31,7 @@ if (2 !== $argc) {
     exit(1);
 }
 
-echo $processor->doStuff($argv[1]);
+//echo $processor->doStuff($argv[1]);
+echo $processor->clean($argv[1]);
+//echo $processor->countCharacters($argv[1]);
 echo "\n";
