@@ -92,27 +92,79 @@ class Processor implements LoggerAwareInterface
      */
     public function countWords(string $a): int
     {
-            $matches = [];
-            preg_match_all('/[\pL\pN\pPd]+/u', $a, $matches);
-            //return $matches[0];
-            return count($matches[0]);
+        $matches = [];
+        preg_match_all('/[\pL\pN\pPd]+/u', $a, $matches);
+        //return $matches[0];
+        return count($matches[0]);
     }
+
     /**
      * This function gets an input as an string, and count the occurrence of every single
      * character inside, not bytes
      */
     public function countCharactersOccurrence(string $a): array
     {
-        $occ=[];
-        for ($i = 0; $i < mb_strlen($a); $i++){
-            $c=mb_substr($a,$i,1);
-            if(array_key_exists($c,$occ)) {
+        $occ = [];
+        for ($i = 0; $i < mb_strlen($a); $i++) {
+            $c = mb_substr($a, $i, 1);//string, start, length, in a multi-byte format, indicating that char
+            if (array_key_exists($c, $occ)) {
                 $occ[$c]++;
-            }
-            else {
+            } else {
                 $occ[$c] = 1;
             }
         }
         return $occ;
+    }
+
+    public function countWordsOccurrence(string $a): array
+    {
+        ///first solution (not work)
+        //     $occ=[];
+//        $length= $this->countWords($a);
+//        for ($i = 0; $i < $length; $i++){
+//            $numOfCharsInWord=$this->countCharacters()
+//            $c=mb_substr($a,$i,$length);//string, start, length, but in multi-byte format
+//            if(array_key_exists($c,$occ)) {
+//                $occ[$c]++;
+//            }
+//            else {
+//                $occ[$c] = 1;
+//            }
+//        }
+
+
+        //2nd solution (not work)
+//        $matches = [];
+//        $occ=[];
+//        preg_match_all('/[\pL\pN\pPd]+/u', $a, $matches);
+//        $i=0;
+//        foreach ($matches as $val) {
+//            if(array_key_exists($val[$i],$occ))
+//                $occ[$val[$i]]++;
+//            else
+//                $occ[$val[$i]]=1;
+//
+//            $i++;
+//        }
+
+
+        //third solution
+        //as we have all the words in the matches array, we can just simply
+        // make them as keys, and add them in the
+        $matches = [];
+        $occ = [];
+        preg_match_all('/[\pL\pN\pPd]+/u', $a, $matches);
+        $wordCount = $this->countWords($a);
+
+        for ($i = 0; $i < $wordCount; $i++) {
+            if (array_key_exists((string)$matches[0][$i], $occ))
+                $occ[$matches[0][$i]]++;
+            else
+                $occ[$matches[0][$i]] = 1;
+        }
+        return $occ;
+
+
+
     }
 }

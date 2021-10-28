@@ -131,8 +131,8 @@ class ProcessorTest extends TestCase
             ],
             [
                 [
-                   'a' => 1,
-                   'b' => 1
+                    'a' => 1,
+                    'b' => 1
                 ],
                 'ab'
             ],
@@ -150,9 +150,84 @@ class ProcessorTest extends TestCase
                     'ا' => 1,
                 ],
                 'سبا'
+            ],
+            [
+                [
+                ],
+                ''
+            ],
+            [
+                ['' => 1,
+                ],
+                ' '
+            ],
+            [
+                [' ' => 1,
+                ],
+                ' '
+            ],
+            [
+                ['' => 2
+                ],
+                '  '
             ]
         ];
     }
+
+    /**
+     * @test
+     * @dataProvider countWordsOccurrenceData
+     */
+    public function countWordsOccurrence($expectedResult, $input): void
+    {
+        $this->assertEqualsCanonicalizing($expectedResult, $this->processor->countWordsOccurrence($input));
+    }
+
+    public function countWordsOccurrenceData()
+    {
+//        [4, 'azizam بگو bar migardi'],
+//            [1, 'woo-hoo'],
+//            [1, 'aziz?i'],
+//            [0, ''],
+//            [3, 'azizami ؟ مگه'],
+//            [1, '联合声明'],
+//            [2, 'hello  what'],
+
+        return [
+            [
+                [
+                    'Hi' => 1,
+                    'there' => 1
+                ],
+                'Hi there'
+            ],
+            [
+                [
+                ],
+                ''
+            ],
+            [
+                ['woo-hoo'=>1
+                ],
+                'woo-hoo'
+            ],
+            [
+                ['azizami'=>1,
+                    'مگه' =>1,
+                    '؟' =>1,
+                ],
+                'azizami ؟ مگه'
+            ],
+            [
+                ['عزیزم'=>2,
+                    'مگه' =>1,
+                    '؟' =>1,
+                ],
+                'عزیزم عزیزم ؟ مگه'
+            ]
+        ];
+    }
+
 
     protected function setUp(): void
     {
