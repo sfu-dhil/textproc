@@ -12,22 +12,21 @@ namespace Dhil\TextProc;
 
 use PHPUnit\Framework\TestCase;
 
-class ProcessorTest extends TestCase
-{
+class ProcessorTest extends TestCase {
     private Processor $processor;
-
 
     /**
      * @test
      * @dataProvider cleanData
+     *
+     * @param mixed $expectedResult
+     * @param mixed $input
      */
-    public function clean($expectedResult, $input): void
-    {
+    public function clean($expectedResult, $input) : void {
         $this->assertSame($expectedResult, $this->processor->clean($input));
     }
 
-    public function cleanData()
-    {
+    public function cleanData() {
         return [
             ['a', '  a'],
             ['', ''],
@@ -45,14 +44,15 @@ class ProcessorTest extends TestCase
     /**
      * @test
      * @dataProvider countCharactersData
+     *
+     * @param mixed $expectedResult
+     * @param mixed $input
      */
-    public function countCharacters($expectedResult, $input): void
-    {
+    public function countCharacters($expectedResult, $input) : void {
         $this->assertSame($expectedResult, $this->processor->countCharacters($input));
     }
 
-    public function countCharactersData()
-    {
+    public function countCharactersData() {
         return [
             [0, ''],
             [1, 'a'],
@@ -62,21 +62,22 @@ class ProcessorTest extends TestCase
             [4, 'بنفش'],
             [1, 'é'],
             // [2,"e\u{0301}"], //é  -> at end, we want it to be one (change line 60 processor.php)
-            [1, "e\u{0301}"]
+            [1, "e\u{0301}"],
         ];
     }
 
     /**
      * @test
      * @dataProvider countLinesData
+     *
+     * @param mixed $expectedResult
+     * @param mixed $input
      */
-    public function countLines($expectedResult, $input): void
-    {
+    public function countLines($expectedResult, $input) : void {
         $this->assertSame($expectedResult, $this->processor->countLines($input));
     }
 
-    public function countLinesData()
-    {
+    public function countLinesData() {
         return [
             [0, ''],
             [1, "\n"],
@@ -88,15 +89,15 @@ class ProcessorTest extends TestCase
     /**
      * @test
      * @dataProvider countWordsData
+     *
+     * @param mixed $expectedResult
+     * @param mixed $input
      */
-    public function countWords($expectedResult, $input): void
-    {
+    public function countWords($expectedResult, $input) : void {
         $this->assertSame($expectedResult, $this->processor->countWords($input));
-
     }
 
-    public function countWordsData()
-    {
+    public function countWordsData() {
         return [
             [4, 'azizam بگو bar migardi'],
             [1, 'woo-hoo'],
@@ -109,39 +110,39 @@ class ProcessorTest extends TestCase
         ];
     }
 
-
     /**
      * @test
      * @dataProvider countCharactersOccurrenceData
+     *
+     * @param mixed $expectedResult
+     * @param mixed $input
      */
-    public function countCharactersOccurrence($expectedResult, $input): void
-    {
+    public function countCharactersOccurrence($expectedResult, $input) : void {
         $this->assertEqualsCanonicalizing($expectedResult, $this->processor->countCharactersOccurrence($input));
     }
 
-    public function countCharactersOccurrenceData()
-    {
+    public function countCharactersOccurrenceData() {
         return [
             [
                 [
                     '?' => 1,
-                    'a' => 1
+                    'a' => 1,
                 ],
-                'a?'
+                'a?',
             ],
             [
                 [
                     'a' => 1,
-                    'b' => 1
+                    'b' => 1,
                 ],
-                'ab'
+                'ab',
             ],
             [
                 [
                     'a' => 1,
-                    'b' => 1
+                    'b' => 1,
                 ],
-                'ba'
+                'ba',
             ],
             [
                 [
@@ -149,42 +150,43 @@ class ProcessorTest extends TestCase
                     'ب' => 1,
                     'ا' => 1,
                 ],
-                'سبا'
+                'سبا',
             ],
             [
                 [
                 ],
-                ''
+                '',
             ],
             [
                 ['' => 1,
                 ],
-                ' '
+                ' ',
             ],
             [
                 [' ' => 1,
                 ],
-                ' '
+                ' ',
             ],
             [
-                ['' => 2
+                ['' => 2,
                 ],
-                '  '
-            ]
+                '  ',
+            ],
         ];
     }
 
     /**
      * @test
      * @dataProvider countWordsOccurrenceData
+     *
+     * @param mixed $expectedResult
+     * @param mixed $input
      */
-    public function countWordsOccurrence($expectedResult, $input): void
-    {
+    public function countWordsOccurrence($expectedResult, $input) : void {
         $this->assertEqualsCanonicalizing($expectedResult, $this->processor->countWordsOccurrence($input));
     }
 
-    public function countWordsOccurrenceData()
-    {
+    public function countWordsOccurrenceData() {
 //        [4, 'azizam بگو bar migardi'],
 //            [1, 'woo-hoo'],
 //            [1, 'aziz?i'],
@@ -197,40 +199,48 @@ class ProcessorTest extends TestCase
             [
                 [
                     'Hi' => 1,
-                    'there' => 1
+                    'there' => 1,
                 ],
-                'Hi there'
+                'Hi there',
             ],
             [
                 [
                 ],
-                ''
+                '',
             ],
             [
-                ['woo-hoo'=>1
+                ['woo-hoo' => 1,
                 ],
-                'woo-hoo'
+                'woo-hoo',
             ],
             [
-                ['azizami'=>1,
-                    'مگه' =>1,
-                    '؟' =>1,
+                ['azizami' => 1,
+                    'مگه' => 1,
+                    '؟' => 1,
                 ],
-                'azizami ؟ مگه'
+                'azizami ؟ مگه',
             ],
             [
-                ['عزیزم'=>2,
-                    'مگه' =>1,
-                    '؟' =>1,
+                ['عزیزم' => 2,
+                    'مگه' => 1,
+                    '؟' => 1,
                 ],
-                'عزیزم عزیزم ؟ مگه'
-            ]
+                'عزیزم عزیزم ؟ مگه',
+            ],
+            [
+                [
+                    'Hello' => 1,
+                    'I' => 2,
+                    'am' => 2,
+                    'Saba' => 1,
+                    'happy' => 1,
+                ],
+                'Hello. I am Saba. I am happy.',
+            ],
         ];
     }
 
-
-    protected function setUp(): void
-    {
+    protected function setUp() : void {
         parent::setUp();
         $this->processor = new Processor();
     }

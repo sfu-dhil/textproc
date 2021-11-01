@@ -10,34 +10,19 @@ declare(strict_types=1);
 
 namespace Dhil\TextProc;
 
+use Normalizer;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\NullLogger;
-use Normalizer;
 
 /**
  * Implementation of some text processing functions.
  */
-class Processor implements LoggerAwareInterface
-{
+class Processor implements LoggerAwareInterface {
     use LoggerAwareTrait;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->logger = new NullLogger();
-    }
-
-    /**
-     * This placeholder function exists to check that the configuration
-     * is correct. It should be removed once everything is working.
-     *
-     * Take a string and return the same exact string.
-     */
-    public function doStuff(string $a): string
-    {
-        $this->logger->notice("doing stuff with {$a}.");
-
-        return $a;
     }
 
     /**
@@ -46,10 +31,9 @@ class Processor implements LoggerAwareInterface
      * 2) does not have spaces in the beginning and the end
      * 3) does not have any punctuation
      * 4) is all in lowercase
-     * 5) does not have multi-spaces
+     * 5) does not have multi-spaces.
      */
-    public function clean(string $a): string
-    {
+    public function clean(string $a) : string {
 
         //removing accents characters
         $a = Normalizer::normalize($a, Normalizer::FORM_D);
@@ -69,29 +53,28 @@ class Processor implements LoggerAwareInterface
     }
 
     /**
-     * This function gets an input as an string, and count the characters inside, not bytes
+     * This function gets an input as an string, and count the characters inside, not bytes.
      */
-    public function countCharacters(string $a): int
-    {
+    public function countCharacters(string $a) : int {
         $a = Normalizer::normalize($a, Normalizer::FORM_C);
+
         return mb_strlen($a);
     }
 
     /**
-     * This function gets a string, count the lines inside,
+     * This function gets a string, count the lines inside,.
      */
-    public function countLines(string $a): int
-    {
+    public function countLines(string $a) : int {
         $matches = [];
         preg_match_all('/(\r\n|\r|\n)/u', $a, $matches);
+
         return count($matches[0]);
     }
 
     /**
-     * This function gets a string, count the words inside, if the bool is true
+     * This function gets a string, count the words inside, if the bool is true.
      */
-    public function countWords(string $a): int
-    {
+    public function countWords(string $a) : int {
         $matches = [];
         preg_match_all('/[\pL\pN\pPd]+/u', $a, $matches);
         //return $matches[0];
@@ -100,71 +83,37 @@ class Processor implements LoggerAwareInterface
 
     /**
      * This function gets an input as an string, and count the occurrence of every single
-     * character inside, not bytes
+     * character inside, not bytes.
      */
-    public function countCharactersOccurrence(string $a): array
-    {
+    public function countCharactersOccurrence(string $a) : array {
         $occ = [];
         for ($i = 0; $i < mb_strlen($a); $i++) {
-            $c = mb_substr($a, $i, 1);//string, start, length, in a multi-byte format, indicating that char
+            $c = mb_substr($a, $i, 1); //string, start, length, in a multi-byte format, indicating that char
             if (array_key_exists($c, $occ)) {
                 $occ[$c]++;
             } else {
                 $occ[$c] = 1;
             }
         }
+
         return $occ;
     }
 
-    public function countWordsOccurrence(string $a): array
-    {
-        ///first solution (not work)
-        //     $occ=[];
-//        $length= $this->countWords($a);
-//        for ($i = 0; $i < $length; $i++){
-//            $numOfCharsInWord=$this->countCharacters()
-//            $c=mb_substr($a,$i,$length);//string, start, length, but in multi-byte format
-//            if(array_key_exists($c,$occ)) {
-//                $occ[$c]++;
-//            }
-//            else {
-//                $occ[$c] = 1;
-//            }
-//        }
-
-
-        //2nd solution (not work)
-//        $matches = [];
-//        $occ=[];
-//        preg_match_all('/[\pL\pN\pPd]+/u', $a, $matches);
-//        $i=0;
-//        foreach ($matches as $val) {
-//            if(array_key_exists($val[$i],$occ))
-//                $occ[$val[$i]]++;
-//            else
-//                $occ[$val[$i]]=1;
-//
-//            $i++;
-//        }
-
-
-        //third solution
-        //as we have all the words in the matches array, we can just simply
-        // make them as keys, and add them in the
+    public function countWordsOccurrence(string $a) : array {
         $matches = [];
         $occ = [];
         preg_match_all('/[\pL\pN\pPd]+/u', $a, $matches);
-        $wordCount = $this->countWords($a);
+        $wordCount = count($matches[0]);
 
         for ($i = 0; $i < $wordCount; $i++) {
-            if (array_key_exists((string)$matches[0][$i], $occ))
-                $occ[$matches[0][$i]]++;
-            else
-                $occ[$matches[0][$i]] = 1;
+            $word = $matches[0][$i];
+            if (array_key_exists($word, $occ)) {
+                $occ[$word]++;
+            } else {
+                $occ[$word] = 1;
+            }
         }
+
         return $occ;
-
-
-
     }
 }
