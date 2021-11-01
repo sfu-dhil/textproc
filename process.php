@@ -32,6 +32,9 @@ if (2 !== $argc) {
 }
 
 //echo $processor->doStuff($argv[1]);
-echo $processor->clean($argv[1]);
-//echo $processor->countCharacters($argv[1]);
+//echo $processor->clean($argv[1]);
+//var_dump($processor->countCharactersOccurrence($argv[1]));
+var_dump($processor->countWordsOccurrence($argv[1]));
+//echo $processor->countWords($argv[1]);
+
 echo "\n";
