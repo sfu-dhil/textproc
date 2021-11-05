@@ -80,6 +80,7 @@ class ProcessorTest extends TestCase {
     public function countLinesData() {
         return [
             [0, ''],
+            [1, 'I have to'],
             [1, "\n"],
             [2, "hello\nhny\n"],
             [2, "hello\n\n"],
@@ -106,6 +107,7 @@ class ProcessorTest extends TestCase {
             [3, 'azizami ؟ مگه'],
             [1, '联合声明'],
             [2, 'hello  what'],
+            [2,"isn't"]
 
         ];
     }

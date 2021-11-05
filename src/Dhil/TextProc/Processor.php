@@ -65,10 +65,17 @@ class Processor implements LoggerAwareInterface {
      * This function gets a string, count the lines inside,.
      */
     public function countLines(string $a) : int {
+        if($a===''){
+            return 0;
+        }
+        //selecting the very last char and if not \n, append one
+        if(mb_substr($a,-1,1)!=="\n"){
+            $a=$a . "\n";
+        }
         $matches = [];
         preg_match_all('/(\r\n|\r|\n)/u', $a, $matches);
-
         return count($matches[0]);
+
     }
 
     /**
@@ -76,8 +83,7 @@ class Processor implements LoggerAwareInterface {
      */
     public function countWords(string $a) : int {
         $matches = [];
-        preg_match_all('/[\pL\pN\pPd]+/u', $a, $matches);
-        //return $matches[0];
+        preg_match_all("/([\pL\pN\pPd])+/u", $a, $matches);
         return count($matches[0]);
     }
 
