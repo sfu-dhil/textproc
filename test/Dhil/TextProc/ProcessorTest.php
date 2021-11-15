@@ -107,8 +107,11 @@ class ProcessorTest extends TestCase {
             [3, 'azizami ؟ مگه'],
             [1, '联合声明'],
             [2, 'hello  what'],
-            [2,"isn't"]
-
+            [1, "isn't"],
+            [1, "could've"],
+            [1, "shouldn't've"],
+            [11, "I'm not doing well 'cause you could've died but you didn't"],
+            [7, "Hello. I'm Saba. I can't speak chinese"],
         ];
     }
 
