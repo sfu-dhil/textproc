@@ -86,7 +86,6 @@ class Processor implements LoggerAwareInterface {
             return 0;
         }
         $words = preg_split('/\s+/u', $a);
-
         return count($words);
     }
 
