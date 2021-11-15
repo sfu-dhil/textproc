@@ -62,7 +62,7 @@ class Processor implements LoggerAwareInterface {
     }
 
     /**
-     * This function gets a string, count the lines inside,.
+     * This function gets a string, count the lines inside.
      */
     public function countLines(string $a) : int {
         if($a===''){
@@ -79,12 +79,24 @@ class Processor implements LoggerAwareInterface {
     }
 
     /**
-     * This function gets a string, count the words inside, if the bool is true.
+     * This function gets a string, count the number of words inside
      */
     public function countWords(string $a) : int {
-        $matches = [];
-        preg_match_all("/([\pL\pN\pPd])+/u", $a, $matches);
-        return count($matches[0]);
+//        $matches = [];
+//        preg_match_all("/([\pL\pN\pP])+/u", $a, $matches);
+        ///////
+       // $words=mb_split('/\s+/u',$a);
+        if($a===''){
+            return 0;
+        }
+        $words=preg_split('/\s+/u',$a);
+        //print_r($words);
+        $number_of_contractions=0;
+        for($i=0;$i<count($words);$i++){
+        $number_of_contractions= $number_of_contractions+
+            preg_match_all("/(n't|'d|'re|'s|'ll|'ve)/u",$words[$i],$matches);
+        }
+        return count($words)+$number_of_contractions;
     }
 
     /**

@@ -107,7 +107,9 @@ class ProcessorTest extends TestCase {
             [3, 'azizami ؟ مگه'],
             [1, '联合声明'],
             [2, 'hello  what'],
-            [2,"isn't"]
+            [2,"isn't"],
+            [2,"could've"],
+            [3,"shouldn't've"]
 
         ];
     }
