@@ -65,38 +65,29 @@ class Processor implements LoggerAwareInterface {
      * This function gets a string, count the lines inside.
      */
     public function countLines(string $a) : int {
-        if($a===''){
+        if ('' === $a) {
             return 0;
         }
         //selecting the very last char and if not \n, append one
-        if(mb_substr($a,-1,1)!=="\n"){
-            $a=$a . "\n";
+        if ("\n" !== mb_substr($a, -1, 1)) {
+            $a = $a . "\n";
         }
         $matches = [];
         preg_match_all('/(\r\n|\r|\n)/u', $a, $matches);
-        return count($matches[0]);
 
+        return count($matches[0]);
     }
 
     /**
-     * This function gets a string, count the number of words inside
+     * This function gets a string, count the number of words inside.
      */
     public function countWords(string $a) : int {
-//        $matches = [];
-//        preg_match_all("/([\pL\pN\pP])+/u", $a, $matches);
-        ///////
-       // $words=mb_split('/\s+/u',$a);
-        if($a===''){
+        if ('' === $a) {
             return 0;
         }
-        $words=preg_split('/\s+/u',$a);
-        //print_r($words);
-        $number_of_contractions=0;
-        for($i=0;$i<count($words);$i++){
-        $number_of_contractions= $number_of_contractions+
-            preg_match_all("/(n't|'d|'re|'s|'ll|'ve)/u",$words[$i],$matches);
-        }
-        return count($words)+$number_of_contractions;
+        $words = preg_split('/\s+/u', $a);
+
+        return count($words);
     }
 
     /**
